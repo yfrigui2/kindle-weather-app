@@ -1,0 +1,12 @@
+{
+	"items": [
+	{
+		"name": "Pocket Ink weather",
+		"priority": 0,
+		"items": [
+		{ "name": "Start weather display", "action": "./bin/start.sh", "exitmenu": true },
+		{ "name": "Stop weather display", "action": "./bin/stop.sh", "exitmenu": false, "status": true }
+		]
+	}
+	]
+}

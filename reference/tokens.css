@@ -1,0 +1,5 @@
+:root{--paper:#ffffff;--grid:#dddddd;--mist:#eeeeee;--fog:#bbbbbb;--slate:#555555;--ink:#000000;--on-ink:#ffffff;
+--font-digits:"Press Start 2P", ui-monospace, monospace;--font-pixel:"Pixelify Sans", ui-monospace, monospace;--font-label:Silkscreen, ui-monospace, monospace;
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--radius-none:0px;--radius-pill:9999px;
+--shadow-pop:6px 6px 0 #bbbbbb;--shadow-key:0 -2px 0 0 #000000, 0 2px 0 0 #000000, -2px 0 0 0 #000000, 2px 0 0 0 #000000, 0 6px 0 0 #bbbbbb;
+--canvas-width:600px;--canvas-height:800px;--grid-cell:24px;--border:2px;--border-bold:3px}

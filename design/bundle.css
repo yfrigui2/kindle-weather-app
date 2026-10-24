@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap");
+
+/* Pocket Ink components. Every value is a token from tokens.json; the only literals are pixel nudges. */
+
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-pixel); }
+
+/* ---------- inline helpers: a number or a caps label inside other text ---------- */
+.pk-num { font-family: var(--font-digits); font-weight: 400; letter-spacing: 0; text-transform: none; }
+.pk-cap { font-family: var(--font-label); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; }
+
+/* ---------- PixelIcon ---------- */
+.pk-icon { display: block; flex: none; }
+.pk-i-k { fill: var(--ink); }
+.pk-i-w { fill: var(--paper); }
+.pk-i-g { fill: var(--fog); }
+.pk-i-m { fill: var(--mist); }
+
+/* ---------- Screen: the 600 x 800 graph-paper desktop ---------- */
+.pk-screen {
+  box-sizing: border-box; position: relative; overflow: hidden;
+  width: var(--canvas-width); height: var(--canvas-height);
+  padding: var(--space-6);
+  display: flex; flex-direction: column; gap: var(--space-4);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(to right, var(--grid) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--grid) 2px, transparent 2px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  background-position: -1px -1px;
+  color: var(--ink); font-family: var(--font-pixel);
+}
+.pk-screen--plain { background-image: none; }
+
+/* ---------- shared label voice (Silkscreen, caps) ---------- */
+.pk-status, .pk-window__title, .pk-readout__sub, .pk-stat__label, .pk-stat__unit,
+.pk-meter__label, .pk-chip {
+  font-family: var(--font-label); font-weight: 400;
+  font-size: 16px; line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* ---------- StatusBar ---------- */
+.pk-status {
+  box-sizing: border-box; flex: none;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  height: 40px; padding: 0 var(--space-3);
+  background: var(--paper); color: var(--ink);
+  border: var(--border-bold) solid var(--ink); box-shadow: var(--shadow-pop);
+  white-space: nowrap;
+}
+.pk-status__right { display: flex; align-items: center; gap: var(--space-3); }
+.pk-status__hearts { display: flex; gap: 2px; }
+
+/* ---------- Window ---------- */
+.pk-window {
+  box-sizing: border-box; flex: none;
+  background: var(--paper); color: var(--ink);
+  border: var(--border-bold) solid var(--ink); border-radius: var(--radius-none);
+  box-shadow: var(--shadow-pop);
+}
+.pk-window__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  height: 32px; padding: 0 var(--space-3);
+  background: var(--mist); border-bottom: var(--border) solid var(--ink);
+}
+.pk-window__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pk-window__dots { display: flex; gap: 6px; flex: none; }
+.pk-window__dots i {
+  display: block; width: 12px; height: 12px; box-sizing: border-box;
+  border: var(--border) solid var(--ink); border-radius: var(--radius-pill); background: var(--paper);
+}
+.pk-window__close {
+  display: grid; place-items: center; flex: none;
+  width: 20px; height: 20px; box-sizing: border-box;
+  border: var(--border) solid var(--ink); background: var(--paper);
+}
+.pk-window__body { padding: var(--space-4); }
+.pk-window__body--flush { padding: 0; }
+.pk-window--grow { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.pk-window--grow > .pk-window__body { flex: 1 1 auto; display: flex; flex-direction: column; }
+.pk-window--grow > .pk-window__body > * { flex: 1 1 auto; }
+.pk-window--alert .pk-window__bar { background: var(--ink); color: var(--on-ink); }
+.pk-window--alert .pk-window__dots i,
+.pk-window--alert .pk-window__close { border-color: var(--on-ink); background: var(--ink); }
+.pk-window--alert .pk-window__close .pk-i-k { fill: var(--on-ink); }
+
+/* ---------- Readout: the hero number ---------- */
+.pk-readout { color: var(--ink); }
+.pk-readout__label {
+  margin-bottom: var(--space-3); color: var(--slate);
+  font-family: var(--font-label); font-size: 16px; line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+.pk-readout__value {
+  display: flex; align-items: flex-start; white-space: nowrap;
+  font-family: var(--font-digits); font-weight: 400; font-size: 112px; line-height: 112px; letter-spacing: 0;
+}
+.pk-readout__sub { margin-top: var(--space-3); color: var(--slate); }
+.pk-readout__sub .pk-num { font-size: 16px; line-height: 16px; color: var(--ink); }
+.pk-readout--md .pk-readout__value { font-size: 48px; line-height: 48px; }
+
+/* ---------- Forecast: columns (hours, days) or rows (the days screen) ---------- */
+.pk-forecast { display: grid; color: var(--ink); }
+.pk-forecast__day {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  justify-content: center; padding: var(--space-3) var(--space-1); text-align: center; min-width: 0;
+}
+.pk-forecast__day + .pk-forecast__day { border-left: var(--border) solid var(--ink); }
+.pk-forecast__label {
+  font-family: var(--font-label); font-weight: 700; font-size: 24px; line-height: 24px;
+  text-transform: uppercase; white-space: nowrap;
+}
+.pk-forecast__word { font-family: var(--font-pixel); font-size: 24px; line-height: 28px; }
+.pk-forecast__hi { font-family: var(--font-digits); font-size: 32px; line-height: 32px; white-space: nowrap; }
+.pk-forecast__hi.is-long { font-size: 24px; line-height: 32px; }
+.pk-forecast__lo { font-family: var(--font-digits); font-size: 24px; line-height: 24px; color: var(--slate); white-space: nowrap; }
+.pk-forecast__rain {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-family: var(--font-digits); font-size: 16px; line-height: 16px; color: var(--slate); white-space: nowrap;
+}
+.pk-forecast__rain.is-empty { visibility: hidden; min-height: 16px; }
+.pk-forecast__day.is-today { background: var(--ink); color: var(--on-ink); }
+.pk-forecast__day.is-today .pk-forecast__lo,
+.pk-forecast__day.is-today .pk-forecast__rain { color: var(--on-ink); }
+
+.pk-forecast--rows { grid-auto-rows: 1fr; }
+.pk-forecast--rows .pk-forecast__day {
+  display: grid; align-items: center; justify-items: start; text-align: left;
+  grid-template-columns: 64px 64px minmax(0, 1fr) 72px 96px 72px;
+  grid-template-areas: "label icon word rain hi lo";
+  column-gap: var(--space-2); padding: var(--space-3) var(--space-4);
+}
+.pk-forecast--rows .pk-forecast__day + .pk-forecast__day { border-left: 0; border-top: var(--border) solid var(--ink); }
+.pk-forecast--rows .pk-forecast__label { grid-area: label; }
+.pk-forecast--rows .pk-forecast__icon { grid-area: icon; }
+.pk-forecast--rows .pk-forecast__word { grid-area: word; }
+.pk-forecast--rows .pk-forecast__rain { grid-area: rain; }
+.pk-forecast--rows .pk-forecast__hi { grid-area: hi; justify-self: end; }
+.pk-forecast--rows .pk-forecast__lo { grid-area: lo; justify-self: end; }
+
+/* ---------- Stat ---------- */
+.pk-stat { display: flex; align-items: center; gap: var(--space-3); min-width: 0; color: var(--ink); }
+.pk-stat__label { color: var(--slate); white-space: nowrap; }
+.pk-stat__value {
+  display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); white-space: nowrap;
+  font-family: var(--font-digits); font-size: 32px; line-height: 32px;
+}
+.pk-stat__unit { color: var(--slate); }
+
+/* ---------- Meter: the HP bar ---------- */
+.pk-meter { color: var(--ink); }
+.pk-meter__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-2); }
+.pk-meter__label { color: var(--slate); }
+.pk-meter__value { font-family: var(--font-digits); font-size: 16px; line-height: 16px; white-space: nowrap; }
+.pk-meter__track { display: flex; gap: var(--space-1); }
+.pk-meter__track i {
+  display: block; flex: 1; height: 16px; box-sizing: border-box;
+  border: var(--border) solid var(--ink); border-radius: var(--radius-none); background: var(--paper);
+}
+.pk-meter__track i.is-on { background: var(--ink); }
+
+/* ---------- Chip ---------- */
+.pk-chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: 32px; box-sizing: border-box; padding: 0 var(--space-3);
+  border: var(--border) solid var(--ink); border-radius: var(--radius-pill);
+  background: var(--mist); color: var(--ink); white-space: nowrap;
+}
+.pk-chip .pk-num { font-size: 16px; line-height: 16px; }
+.pk-chip--ink { background: var(--ink); color: var(--on-ink); }
+
+/* ---------- Button: the pixel key ---------- */
+.pk-key {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  margin: 2px 2px 8px; padding: var(--space-2) var(--space-4);
+  border: 0; border-radius: var(--radius-none);
+  background: var(--paper); color: var(--ink); box-shadow: var(--shadow-key);
+  font-family: var(--font-label); font-weight: 700; font-size: 24px; line-height: 24px; text-transform: uppercase;
+  white-space: nowrap; cursor: pointer;
+}
+.pk-key--primary { background: var(--ink); color: var(--on-ink); }
+.pk-key:focus-visible { outline: var(--border) solid var(--ink); outline-offset: 6px; }
+
+/* ---------- Dither fills: the only way to shade an area (no gradients on e-ink) ---------- */
+.pk-dither-25, .pk-dither-50, .pk-dither-75 { background-size: 4px 4px; }
+.pk-dither-25 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 100%); }
+.pk-dither-50 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 50%); }
+.pk-dither-75 { background-image: repeating-conic-gradient(var(--ink) 0 75%, transparent 0 100%); }

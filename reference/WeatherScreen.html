@@ -1,0 +1,49 @@
+<!-- @dsCard group="Screens" height=848 width=648 page subtitle="The always-on screen: now, today, next hours" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>WeatherScreen — preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&amp;family=Press+Start+2P&amp;family=Silkscreen:wght@400;700&amp;display=swap">
+<style>
+  .demo { padding: 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .stage { padding: 24px; }
+  .now { display: flex; justify-content: space-between; align-items: flex-start; }
+  .word { margin-top: 12px; font-size: 56px; line-height: 60px; font-weight: 600; }
+  .feels { margin-top: 12px; font-size: 16px; line-height: 16px; color: var(--slate); }
+  .feels .pk-num { font-size: 16px; color: var(--ink); }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: var(--border) solid var(--ink); }
+  .foot { display: flex; justify-content: flex-end; }
+</style>
+<link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="../design/bundle.css"><style>.stage{padding:0!important}body{margin:0}</style></head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script><script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script><script src="../design/bundle.js"></script><script>
+  var P = window.PocketInk, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'stage' }, h(P.Screen, null,
+    h(P.StatusBar, { left: 'FRI · OCT 23', right: 'UPDATED 5:40 PM', battery: 60 }),
+    h(P.Window, { title: 'WEATHER.EXE' },
+      h('div', { className: 'now' },
+        h('div', null,
+          h(P.Readout, { value: 72 }),
+          h('div', { className: 'word' }, 'sunny!'),
+          h('div', { className: 'feels pk-cap' }, 'FEELS LIKE ', h('span', { className: 'pk-num' }, '70°'))),
+        h(P.PixelIcon, { name: 'sun', size: 'lg', title: 'sunny' })),
+      h('div', { className: 'facts' },
+        h(P.Stat, { icon: 'thermometer', label: 'HIGH TODAY', value: '74°' }),
+        h(P.Stat, { icon: 'sunset', label: 'SUNSET', value: '6:42', unit: 'PM' }))),
+    h(P.Window, { title: 'HOURS.EXE', flush: true, grow: true },
+      h(P.Forecast, { today: -1, days: [
+        { label: '6PM', icon: 'sun', hi: 71 },
+        { label: '7PM', icon: 'moon', hi: 68 },
+        { label: '8PM', icon: 'cloud', hi: 66, rain: 30 },
+        { label: '9PM', icon: 'rain', hi: 63, rain: 70 },
+        { label: '10PM', icon: 'rain', hi: 61, rain: 80 }] })),
+    h('div', { className: 'foot' }, h(P.Button, { icon: 'next', iconEnd: true }, '5 DAYS'))))
+  );
+</script>
+</body>
+</html>

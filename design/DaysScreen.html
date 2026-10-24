@@ -1,0 +1,34 @@
+<!-- @dsCard group="Screens" height=848 width=648 page subtitle="Behind the 5 DAYS key" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DaysScreen — preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&amp;family=Press+Start+2P&amp;family=Silkscreen:wght@400;700&amp;display=swap">
+<style>
+  .demo { padding: 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .stage { padding: 24px; }
+  .foot { display: flex; justify-content: flex-start; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var P = window.PocketInk, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h('div', { className: 'stage' }, h(P.Screen, null,
+    h(P.StatusBar, { left: 'FRI · OCT 23', right: 'UPDATED 5:40 PM', battery: 60 }),
+    h(P.Window, { title: '5DAYS.EXE', flush: true, grow: true },
+      h(P.Forecast, { layout: 'rows', days: [
+        { label: 'FRI', icon: 'sun', word: 'sunny', hi: 74, lo: 58 },
+        { label: 'SAT', icon: 'rain', word: 'rain', hi: 64, lo: 52, rain: 80 },
+        { label: 'SUN', icon: 'storm', word: 'storms', hi: 59, lo: 47, rain: 90 },
+        { label: 'MON', icon: 'partly', word: 'some sun', hi: 62, lo: 45, rain: 20 },
+        { label: 'TUE', icon: 'cloud', word: 'cloudy', hi: 60, lo: 44 }] })),
+    h('div', { className: 'foot' }, h(P.Button, { icon: 'back' }, 'TODAY'))))
+  );
+</script>
+</body>
+</html>

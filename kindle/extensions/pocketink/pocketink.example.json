@@ -1,0 +1,13 @@
+{
+  "name": "Seattle, WA",
+  "latitude": 47.6062,
+  "longitude": -122.3321,
+  "timezone": "America/Los_Angeles",
+  "units": "imperial",
+  "refresh_minutes": 15,
+  "theme": "paper",
+  "touch_device": "/dev/input/event2",
+  "touch_swap_xy": false,
+  "touch_flip_x": false,
+  "touch_flip_y": false
+}

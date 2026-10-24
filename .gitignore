@@ -1,0 +1,11 @@
+# Build output and comparison renders (scripts/check.sh)
+/build/
+# The Kindle binary is built from src/
+/kindle/extensions/pocketink/bin/pocketink
+# Your own settings: copy pocketink.example.json
+/kindle/extensions/pocketink/pocketink.json
+# Files the display writes on the Kindle
+cache.json
+screen.png
+pocketink.log*
+.DS_Store
