@@ -525,6 +525,8 @@ func (c *canvas) dayRows(b image.Rectangle, days []Day) {
 // renderMessage is a one-window screen: the alert when there is no weather to show yet,
 // or a plain window for the goodbye.
 func renderMessage(m *Model, title, icon, msg string, alert, night bool) *image.Gray {
+	// No keys on a message screen, so taps where they would be do nothing.
+	hitDaysKey, hitTodayKey = image.Rectangle{}, image.Rectangle{}
 	c := newCanvas()
 	c.graphPaper()
 	c.statusBar(24, 24, 552, m.DateLabel, m.Updated, m.Battery)

@@ -12,7 +12,7 @@ numbers you can read from across the room.
 - **Main screen:** the temperature now, the condition, feels-like, today's high, the
   next sunrise or sunset, and the next five hours.
 - **Days screen:** tap **5 DAYS ▶** for the five-day forecast and **◀ TODAY** to go
-  back. It also returns to the main screen on the next update.
+  back. Updates refresh whichever screen is showing.
 - Updates every 15 minutes over the Kindle's Wi-Fi, with a full e-ink refresh each time.
   No account or API key: forecasts come from [Open-Meteo](https://open-meteo.com/).
 - **Hold the top status bar for 3 seconds** to exit back to the normal Kindle UI.

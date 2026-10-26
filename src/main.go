@@ -313,8 +313,7 @@ func cmdRun(args []string) {
 				d.saveCache()
 				log.Printf("fetched weather")
 			}
-			d.screen = "main" // the days screen falls back to main on each update
-			d.show()
+			d.show() // redraw whichever screen is showing with the new forecast
 		case t := <-touches:
 			p := image.Pt(t.x, t.y)
 			if t.long {
