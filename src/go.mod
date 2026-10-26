@@ -1,4 +1,4 @@
-module pocketink
+module kindle-weather-app
 
 go 1.26.0
 

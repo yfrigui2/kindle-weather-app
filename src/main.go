@@ -1,8 +1,8 @@
-// pocketink draws the Pocket Ink weather screens on a Kindle's e-ink panel.
+// kindle-weather draws the weather screens on a Kindle's e-ink panel.
 //
-//	pocketink run -config pocketink.json      the always-on display (on the Kindle)
-//	pocketink render -sample -screen main     render a PNG (for checking on a computer)
-//	pocketink touchprobe                      print touch events, to calibrate taps
+//	kindle-weather run -config kindle-weather.json  the always-on display (on the Kindle)
+//	kindle-weather render -sample -screen main      render a PNG (for checking on a computer)
+//	kindle-weather touchprobe                       print touch events, to calibrate taps
 package main
 
 import (
@@ -24,7 +24,7 @@ import (
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: pocketink run|render|touchprobe [flags]")
+		fmt.Fprintln(os.Stderr, "usage: kindle-weather run|render|touchprobe [flags]")
 		os.Exit(2)
 	}
 	switch os.Args[1] {
@@ -280,7 +280,7 @@ func nextSlot(now time.Time, minutes int) time.Time {
 
 func cmdRun(args []string) {
 	fs := flag.NewFlagSet("run", flag.ExitOnError)
-	cfgPath := fs.String("config", "pocketink.json", "config file")
+	cfgPath := fs.String("config", "kindle-weather.json", "config file")
 	fs.Parse(args)
 	cfg := loadConfig(*cfgPath)
 	d := &display{cfg: cfg, dir: filepath.Dir(*cfgPath), screen: "main"}
@@ -353,7 +353,7 @@ func wait(fetching bool, next time.Time) <-chan time.Time {
 
 func cmdTouchProbe(args []string) {
 	fs := flag.NewFlagSet("touchprobe", flag.ExitOnError)
-	cfgPath := fs.String("config", "pocketink.json", "config file")
+	cfgPath := fs.String("config", "kindle-weather.json", "config file")
 	secs := fs.Int("seconds", 30, "how long to listen")
 	fs.Parse(args)
 	cfg := loadConfig(*cfgPath)

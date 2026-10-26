@@ -1,22 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap");
 
-/* Pocket Ink components. Every value is a token from tokens.json; the only literals are pixel nudges. */
+/* Design system components. Every value is a token from tokens.json; the only literals are pixel nudges. */
 
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-pixel); }
 
 /* ---------- inline helpers: a number or a caps label inside other text ---------- */
-.pk-num { font-family: var(--font-digits); font-weight: 400; letter-spacing: 0; text-transform: none; }
-.pk-cap { font-family: var(--font-label); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; }
+.kw-num { font-family: var(--font-digits); font-weight: 400; letter-spacing: 0; text-transform: none; }
+.kw-cap { font-family: var(--font-label); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; }
 
 /* ---------- PixelIcon ---------- */
-.pk-icon { display: block; flex: none; }
-.pk-i-k { fill: var(--ink); }
-.pk-i-w { fill: var(--paper); }
-.pk-i-g { fill: var(--fog); }
-.pk-i-m { fill: var(--mist); }
+.kw-icon { display: block; flex: none; }
+.kw-i-k { fill: var(--ink); }
+.kw-i-w { fill: var(--paper); }
+.kw-i-g { fill: var(--fog); }
+.kw-i-m { fill: var(--mist); }
 
 /* ---------- Screen: the 600 x 800 graph-paper desktop ---------- */
-.pk-screen {
+.kw-screen {
   box-sizing: border-box; position: relative; overflow: hidden;
   width: var(--canvas-width); height: var(--canvas-height);
   padding: var(--space-6);
@@ -29,17 +29,17 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   background-position: -1px -1px;
   color: var(--ink); font-family: var(--font-pixel);
 }
-.pk-screen--plain { background-image: none; }
+.kw-screen--plain { background-image: none; }
 
 /* ---------- shared label voice (Silkscreen, caps) ---------- */
-.pk-status, .pk-window__title, .pk-readout__sub, .pk-stat__label, .pk-stat__unit,
-.pk-meter__label, .pk-chip {
+.kw-status, .kw-window__title, .kw-readout__sub, .kw-stat__label, .kw-stat__unit,
+.kw-meter__label, .kw-chip {
   font-family: var(--font-label); font-weight: 400;
   font-size: 16px; line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase;
 }
 
 /* ---------- StatusBar ---------- */
-.pk-status {
+.kw-status {
   box-sizing: border-box; flex: none;
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
   height: 40px; padding: 0 var(--space-3);
@@ -47,128 +47,128 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   border: var(--border-bold) solid var(--ink); box-shadow: var(--shadow-pop);
   white-space: nowrap;
 }
-.pk-status__right { display: flex; align-items: center; gap: var(--space-3); }
-.pk-status__hearts { display: flex; gap: 2px; }
+.kw-status__right { display: flex; align-items: center; gap: var(--space-3); }
+.kw-status__hearts { display: flex; gap: 2px; }
 
 /* ---------- Window ---------- */
-.pk-window {
+.kw-window {
   box-sizing: border-box; flex: none;
   background: var(--paper); color: var(--ink);
   border: var(--border-bold) solid var(--ink); border-radius: var(--radius-none);
   box-shadow: var(--shadow-pop);
 }
-.pk-window__bar {
+.kw-window__bar {
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
   height: 32px; padding: 0 var(--space-3);
   background: var(--mist); border-bottom: var(--border) solid var(--ink);
 }
-.pk-window__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.pk-window__dots { display: flex; gap: 6px; flex: none; }
-.pk-window__dots i {
+.kw-window__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kw-window__dots { display: flex; gap: 6px; flex: none; }
+.kw-window__dots i {
   display: block; width: 12px; height: 12px; box-sizing: border-box;
   border: var(--border) solid var(--ink); border-radius: var(--radius-pill); background: var(--paper);
 }
-.pk-window__close {
+.kw-window__close {
   display: grid; place-items: center; flex: none;
   width: 20px; height: 20px; box-sizing: border-box;
   border: var(--border) solid var(--ink); background: var(--paper);
 }
-.pk-window__body { padding: var(--space-4); }
-.pk-window__body--flush { padding: 0; }
-.pk-window--grow { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-.pk-window--grow > .pk-window__body { flex: 1 1 auto; display: flex; flex-direction: column; }
-.pk-window--grow > .pk-window__body > * { flex: 1 1 auto; }
-.pk-window--alert .pk-window__bar { background: var(--ink); color: var(--on-ink); }
-.pk-window--alert .pk-window__dots i,
-.pk-window--alert .pk-window__close { border-color: var(--on-ink); background: var(--ink); }
-.pk-window--alert .pk-window__close .pk-i-k { fill: var(--on-ink); }
+.kw-window__body { padding: var(--space-4); }
+.kw-window__body--flush { padding: 0; }
+.kw-window--grow { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.kw-window--grow > .kw-window__body { flex: 1 1 auto; display: flex; flex-direction: column; }
+.kw-window--grow > .kw-window__body > * { flex: 1 1 auto; }
+.kw-window--alert .kw-window__bar { background: var(--ink); color: var(--on-ink); }
+.kw-window--alert .kw-window__dots i,
+.kw-window--alert .kw-window__close { border-color: var(--on-ink); background: var(--ink); }
+.kw-window--alert .kw-window__close .kw-i-k { fill: var(--on-ink); }
 
 /* ---------- Readout: the hero number ---------- */
-.pk-readout { color: var(--ink); }
-.pk-readout__label {
+.kw-readout { color: var(--ink); }
+.kw-readout__label {
   margin-bottom: var(--space-3); color: var(--slate);
   font-family: var(--font-label); font-size: 16px; line-height: 16px; letter-spacing: 0.04em; text-transform: uppercase;
 }
-.pk-readout__value {
+.kw-readout__value {
   display: flex; align-items: flex-start; white-space: nowrap;
   font-family: var(--font-digits); font-weight: 400; font-size: 112px; line-height: 112px; letter-spacing: 0;
 }
-.pk-readout__sub { margin-top: var(--space-3); color: var(--slate); }
-.pk-readout__sub .pk-num { font-size: 16px; line-height: 16px; color: var(--ink); }
-.pk-readout--md .pk-readout__value { font-size: 48px; line-height: 48px; }
+.kw-readout__sub { margin-top: var(--space-3); color: var(--slate); }
+.kw-readout__sub .kw-num { font-size: 16px; line-height: 16px; color: var(--ink); }
+.kw-readout--md .kw-readout__value { font-size: 48px; line-height: 48px; }
 
 /* ---------- Forecast: columns (hours, days) or rows (the days screen) ---------- */
-.pk-forecast { display: grid; color: var(--ink); }
-.pk-forecast__day {
+.kw-forecast { display: grid; color: var(--ink); }
+.kw-forecast__day {
   display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
   justify-content: center; padding: var(--space-3) var(--space-1); text-align: center; min-width: 0;
 }
-.pk-forecast__day + .pk-forecast__day { border-left: var(--border) solid var(--ink); }
-.pk-forecast__label {
+.kw-forecast__day + .kw-forecast__day { border-left: var(--border) solid var(--ink); }
+.kw-forecast__label {
   font-family: var(--font-label); font-weight: 700; font-size: 24px; line-height: 24px;
   text-transform: uppercase; white-space: nowrap;
 }
-.pk-forecast__word { font-family: var(--font-pixel); font-size: 24px; line-height: 28px; }
-.pk-forecast__hi { font-family: var(--font-digits); font-size: 32px; line-height: 32px; white-space: nowrap; }
-.pk-forecast__hi.is-long { font-size: 24px; line-height: 32px; }
-.pk-forecast__lo { font-family: var(--font-digits); font-size: 24px; line-height: 24px; color: var(--slate); white-space: nowrap; }
-.pk-forecast__rain {
+.kw-forecast__word { font-family: var(--font-pixel); font-size: 24px; line-height: 28px; }
+.kw-forecast__hi { font-family: var(--font-digits); font-size: 32px; line-height: 32px; white-space: nowrap; }
+.kw-forecast__hi.is-long { font-size: 24px; line-height: 32px; }
+.kw-forecast__lo { font-family: var(--font-digits); font-size: 24px; line-height: 24px; color: var(--slate); white-space: nowrap; }
+.kw-forecast__rain {
   display: inline-flex; align-items: center; gap: var(--space-1);
   font-family: var(--font-digits); font-size: 16px; line-height: 16px; color: var(--slate); white-space: nowrap;
 }
-.pk-forecast__rain.is-empty { visibility: hidden; min-height: 16px; }
-.pk-forecast__day.is-today { background: var(--ink); color: var(--on-ink); }
-.pk-forecast__day.is-today .pk-forecast__lo,
-.pk-forecast__day.is-today .pk-forecast__rain { color: var(--on-ink); }
+.kw-forecast__rain.is-empty { visibility: hidden; min-height: 16px; }
+.kw-forecast__day.is-today { background: var(--ink); color: var(--on-ink); }
+.kw-forecast__day.is-today .kw-forecast__lo,
+.kw-forecast__day.is-today .kw-forecast__rain { color: var(--on-ink); }
 
-.pk-forecast--rows { grid-auto-rows: 1fr; }
-.pk-forecast--rows .pk-forecast__day {
+.kw-forecast--rows { grid-auto-rows: 1fr; }
+.kw-forecast--rows .kw-forecast__day {
   display: grid; align-items: center; justify-items: start; text-align: left;
   grid-template-columns: 64px 64px minmax(0, 1fr) 72px 96px 72px;
   grid-template-areas: "label icon word rain hi lo";
   column-gap: var(--space-2); padding: var(--space-3) var(--space-4);
 }
-.pk-forecast--rows .pk-forecast__day + .pk-forecast__day { border-left: 0; border-top: var(--border) solid var(--ink); }
-.pk-forecast--rows .pk-forecast__label { grid-area: label; }
-.pk-forecast--rows .pk-forecast__icon { grid-area: icon; }
-.pk-forecast--rows .pk-forecast__word { grid-area: word; }
-.pk-forecast--rows .pk-forecast__rain { grid-area: rain; }
-.pk-forecast--rows .pk-forecast__hi { grid-area: hi; justify-self: end; }
-.pk-forecast--rows .pk-forecast__lo { grid-area: lo; justify-self: end; }
+.kw-forecast--rows .kw-forecast__day + .kw-forecast__day { border-left: 0; border-top: var(--border) solid var(--ink); }
+.kw-forecast--rows .kw-forecast__label { grid-area: label; }
+.kw-forecast--rows .kw-forecast__icon { grid-area: icon; }
+.kw-forecast--rows .kw-forecast__word { grid-area: word; }
+.kw-forecast--rows .kw-forecast__rain { grid-area: rain; }
+.kw-forecast--rows .kw-forecast__hi { grid-area: hi; justify-self: end; }
+.kw-forecast--rows .kw-forecast__lo { grid-area: lo; justify-self: end; }
 
 /* ---------- Stat ---------- */
-.pk-stat { display: flex; align-items: center; gap: var(--space-3); min-width: 0; color: var(--ink); }
-.pk-stat__label { color: var(--slate); white-space: nowrap; }
-.pk-stat__value {
+.kw-stat { display: flex; align-items: center; gap: var(--space-3); min-width: 0; color: var(--ink); }
+.kw-stat__label { color: var(--slate); white-space: nowrap; }
+.kw-stat__value {
   display: flex; align-items: baseline; gap: var(--space-2); margin-top: var(--space-2); white-space: nowrap;
   font-family: var(--font-digits); font-size: 32px; line-height: 32px;
 }
-.pk-stat__unit { color: var(--slate); }
+.kw-stat__unit { color: var(--slate); }
 
 /* ---------- Meter: the HP bar ---------- */
-.pk-meter { color: var(--ink); }
-.pk-meter__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-2); }
-.pk-meter__label { color: var(--slate); }
-.pk-meter__value { font-family: var(--font-digits); font-size: 16px; line-height: 16px; white-space: nowrap; }
-.pk-meter__track { display: flex; gap: var(--space-1); }
-.pk-meter__track i {
+.kw-meter { color: var(--ink); }
+.kw-meter__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-2); }
+.kw-meter__label { color: var(--slate); }
+.kw-meter__value { font-family: var(--font-digits); font-size: 16px; line-height: 16px; white-space: nowrap; }
+.kw-meter__track { display: flex; gap: var(--space-1); }
+.kw-meter__track i {
   display: block; flex: 1; height: 16px; box-sizing: border-box;
   border: var(--border) solid var(--ink); border-radius: var(--radius-none); background: var(--paper);
 }
-.pk-meter__track i.is-on { background: var(--ink); }
+.kw-meter__track i.is-on { background: var(--ink); }
 
 /* ---------- Chip ---------- */
-.pk-chip {
+.kw-chip {
   display: inline-flex; align-items: center; gap: var(--space-2);
   height: 32px; box-sizing: border-box; padding: 0 var(--space-3);
   border: var(--border) solid var(--ink); border-radius: var(--radius-pill);
   background: var(--mist); color: var(--ink); white-space: nowrap;
 }
-.pk-chip .pk-num { font-size: 16px; line-height: 16px; }
-.pk-chip--ink { background: var(--ink); color: var(--on-ink); }
+.kw-chip .kw-num { font-size: 16px; line-height: 16px; }
+.kw-chip--ink { background: var(--ink); color: var(--on-ink); }
 
 /* ---------- Button: the pixel key ---------- */
-.pk-key {
+.kw-key {
   display: inline-flex; align-items: center; gap: var(--space-2);
   margin: 2px 2px 8px; padding: var(--space-2) var(--space-4);
   border: 0; border-radius: var(--radius-none);
@@ -176,11 +176,11 @@ body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(
   font-family: var(--font-label); font-weight: 700; font-size: 24px; line-height: 24px; text-transform: uppercase;
   white-space: nowrap; cursor: pointer;
 }
-.pk-key--primary { background: var(--ink); color: var(--on-ink); }
-.pk-key:focus-visible { outline: var(--border) solid var(--ink); outline-offset: 6px; }
+.kw-key--primary { background: var(--ink); color: var(--on-ink); }
+.kw-key:focus-visible { outline: var(--border) solid var(--ink); outline-offset: 6px; }
 
 /* ---------- Dither fills: the only way to shade an area (no gradients on e-ink) ---------- */
-.pk-dither-25, .pk-dither-50, .pk-dither-75 { background-size: 4px 4px; }
-.pk-dither-25 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 100%); }
-.pk-dither-50 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 50%); }
-.pk-dither-75 { background-image: repeating-conic-gradient(var(--ink) 0 75%, transparent 0 100%); }
+.kw-dither-25, .kw-dither-50, .kw-dither-75 { background-size: 4px 4px; }
+.kw-dither-25 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 100%); }
+.kw-dither-50 { background-image: repeating-conic-gradient(var(--ink) 0 25%, transparent 0 50%); }
+.kw-dither-75 { background-image: repeating-conic-gradient(var(--ink) 0 75%, transparent 0 100%); }

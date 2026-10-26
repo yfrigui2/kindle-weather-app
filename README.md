@@ -1,6 +1,6 @@
 # Kindle Weather App
 
-An always-on weather display for a jailbroken Kindle, drawn in the Pocket Ink style: square
+An always-on weather display for a jailbroken Kindle, drawn in a pixel style: square
 pixel windows on graph paper, pixel weather icons with little faces, and chunky arcade
 numbers you can read from across the room.
 
@@ -37,27 +37,27 @@ Scribe) are not supported yet; the layout is fixed at 600 × 800.
 1. Build the Kindle program:
 
    ```bash
-   cd src && GOOS=linux GOARCH=arm GOARM=7 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o ../kindle/extensions/pocketink/bin/pocketink .
+   cd src && GOOS=linux GOARCH=arm GOARM=7 CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o ../kindle/extensions/kindle-weather/bin/kindle-weather .
    ```
 
-2. Make your settings: copy `kindle/extensions/pocketink/pocketink.example.json` to
-   `pocketink.json` in the same folder and set your place's `name`, `latitude`,
+2. Make your settings: copy `kindle/extensions/kindle-weather/kindle-weather.example.json` to
+   `kindle-weather.json` in the same folder and set your place's `name`, `latitude`,
    `longitude` and `timezone` (an IANA name such as `America/Chicago`, or `auto`).
 
 3. Copy the extension folder to the Kindle, for example over SSH (`kindle` being your
    SSH host for the Kindle):
 
    ```bash
-   scp -r kindle/extensions/pocketink kindle:/mnt/us/extensions/
+   scp -r kindle/extensions/kindle-weather kindle:/mnt/us/extensions/
    ```
 
-   In USB storage mode, copy `kindle/extensions/pocketink` to the `extensions` folder
+   In USB storage mode, copy `kindle/extensions/kindle-weather` to the `extensions` folder
    on the Kindle drive instead.
 
-4. Start it from KUAL (**Pocket Ink weather → Start weather display**) or over SSH:
+4. Start it from KUAL (**Kindle Weather → Start weather display**) or over SSH:
 
    ```bash
-   ssh kindle /mnt/us/extensions/pocketink/bin/start.sh
+   ssh kindle /mnt/us/extensions/kindle-weather/bin/start.sh
    ```
 
    Stop it with a 3-second hold on the status bar, from KUAL, or with `bin/stop.sh`.
@@ -65,7 +65,7 @@ Scribe) are not supported yet; the layout is fixed at 600 × 800.
 
 ## Settings
 
-`pocketink.json` on the Kindle:
+`kindle-weather.json` on the Kindle:
 
 | key | default | what |
 | --- | --- | --- |
@@ -78,13 +78,13 @@ Scribe) are not supported yet; the layout is fixed at 600 × 800.
 | `touch_device` | `/dev/input/event2` | the touchscreen's input device |
 | `touch_swap_xy`, `touch_flip_x`, `touch_flip_y` | `false` | if taps land in the wrong place |
 
-Restart the display after changing them. `bin/pocketink touchprobe -config pocketink.json`
+Restart the display after changing them. `bin/kindle-weather touchprobe -config kindle-weather.json`
 prints where taps land, which helps when calibrating a different model.
 
 ## How it works
 
 `bin/start.sh` runs `bin/run.sh` in the background. It keeps the screen saver off, pauses
-the stock Kindle UI (`stop lab126_gui`) and runs `bin/pocketink`, a static Go program
+the stock Kindle UI (`stop lab126_gui`) and runs `bin/kindle-weather`, a static Go program
 that:
 
 - fetches the forecast with the Kindle's own `curl`,
@@ -95,7 +95,7 @@ that:
 
 When the program exits, `run.sh` turns the screen saver back on and restarts the Kindle
 UI (`start lab126_gui`), which takes about a minute and a half. A goodbye screen stays up
-in the meantime. Nothing outside `/mnt/us/extensions/pocketink` is changed.
+in the meantime. Nothing outside `/mnt/us/extensions/kindle-weather` is changed.
 
 With the Kindle UI paused, nothing else rejoins Wi-Fi after the network drops (a router
 restart, say), so before each update the program checks the connection and, if it is
@@ -103,7 +103,7 @@ down, turns the Kindle's wireless off and on to reconnect. Updates run in the ba
 so taps always respond. If there has been no forecast for 3 hours, the screen says so
 instead of showing old weather as current.
 
-While running, it writes `pocketink.log`, `cache.json` (the last forecast, shown if
+While running, it writes `kindle-weather.log`, `cache.json` (the last forecast, shown if
 Wi-Fi is down at start) and `screen.png` (the screen being shown) to its folder.
 
 ## Development
@@ -114,7 +114,7 @@ Wi-Fi is down at start) and `screen.png` (the screen being shown) to its folder.
 | `src/icons.go` | the 16 × 16 pixel icons |
 | `src/weather.go` | Open-Meteo request, weather codes → icons and words |
 | `src/main.go`, `src/touch_linux.go` | the display loop and touch input |
-| `design/` | the Pocket Ink design system files the screens are built from |
+| `design/` | the design system the screens are built from: tokens, components and previews |
 | `reference/` | the design's WeatherScreen and DaysScreen rendered in Chrome |
 
 ```bash
@@ -123,7 +123,7 @@ scripts/check.sh
 
 renders the design's sample data and compares it with the Chrome references (currently
 within a pixel). Render other screens on your computer with
-`build/pocketink-mac render -sample -screen days -o days.png` (`main`, `days`,
+`build/kindle-weather-mac render -sample -screen days -o days.png` (`main`, `days`,
 `offline`, `bye`; `-night` for the Night theme; `-data forecast.json` for a saved
 Open-Meteo response).
 

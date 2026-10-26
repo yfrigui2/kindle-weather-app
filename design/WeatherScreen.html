@@ -13,7 +13,7 @@
   .now { display: flex; justify-content: space-between; align-items: flex-start; }
   .word { margin-top: 12px; font-size: 56px; line-height: 60px; font-weight: 600; }
   .feels { margin-top: 12px; font-size: 16px; line-height: 16px; color: var(--slate); }
-  .feels .pk-num { font-size: 16px; color: var(--ink); }
+  .feels .kw-num { font-size: 16px; color: var(--ink); }
   .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: var(--border) solid var(--ink); }
   .foot { display: flex; justify-content: flex-end; }
 </style>
@@ -21,7 +21,7 @@
 <body>
 <div id="root"></div>
 <script>
-  var P = window.PocketInk, h = React.createElement;
+  var P = window.KindleWeather, h = React.createElement;
   ReactDOM.createRoot(document.getElementById('root')).render(
     h('div', { className: 'stage' }, h(P.Screen, null,
     h(P.StatusBar, { left: 'FRI · OCT 23', right: 'UPDATED 5:40 PM', battery: 60 }),
@@ -30,7 +30,7 @@
         h('div', null,
           h(P.Readout, { value: 72 }),
           h('div', { className: 'word' }, 'sunny!'),
-          h('div', { className: 'feels pk-cap' }, 'FEELS LIKE ', h('span', { className: 'pk-num' }, '70°'))),
+          h('div', { className: 'feels kw-cap' }, 'FEELS LIKE ', h('span', { className: 'kw-num' }, '70°'))),
         h(P.PixelIcon, { name: 'sun', size: 'lg', title: 'sunny' })),
       h('div', { className: 'facts' },
         h(P.Stat, { icon: 'thermometer', label: 'HIGH TODAY', value: '74°' }),

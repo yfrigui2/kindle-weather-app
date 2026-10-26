@@ -1,7 +1,7 @@
 {
 	"items": [
 	{
-		"name": "Pocket Ink weather",
+		"name": "Kindle Weather",
 		"priority": 0,
 		"items": [
 		{ "name": "Start weather display", "action": "./bin/start.sh", "exitmenu": true },

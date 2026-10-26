@@ -1,6 +1,6 @@
 package main
 
-// 16 x 16 pixel maps copied from the Pocket Ink design system (components/bundle.js).
+// 16 x 16 pixel maps copied from the design system (design/bundle.js).
 // k = ink, w = paper, g = fog, m = mist, . = clear
 var icons = map[string][16]string{
 	"sun":         {"................", ".......kk.......", "..k....kk....k..", "...k........k...", "......kkkk......", ".....kwwwwk.....", "....kwwwwwwk....", ".kk.kwkwwkwk.kk.", ".kk.kgwwwwgk.kk.", "....kwwkkwwk....", ".....kwwwwk.....", "......kkkk......", "...k........k...", "..k....kk....k..", ".......kk.......", "................"},
