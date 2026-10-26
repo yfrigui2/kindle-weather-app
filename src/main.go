@@ -140,38 +140,54 @@ func batteryLevel() int {
 	return -1
 }
 
-// ensureWifi asks the Kindle to bring Wi-Fi back if it dropped, and waits for it.
+// ensureWifi brings Wi-Fi back if it dropped. With the Kindle UI paused nothing else
+// rejoins the network once it returns (after a router restart, say), so turn the radio
+// off and on: the Kindle then reconnects to its saved networks.
 func ensureWifi() {
 	state := func() string {
 		out, _ := exec.Command("lipc-get-prop", "com.lab126.wifid", "cmState").Output()
 		return strings.TrimSpace(string(out))
 	}
-	if state() == "CONNECTED" {
+	s := state()
+	if s == "CONNECTED" {
 		return
 	}
-	log.Printf("wifi is %q, enabling", state())
+	log.Printf("wifi is %q, restarting it", s)
+	exec.Command("lipc-set-prop", "com.lab126.cmd", "wirelessEnable", "0").Run()
+	time.Sleep(5 * time.Second)
 	exec.Command("lipc-set-prop", "com.lab126.cmd", "wirelessEnable", "1").Run()
-	for i := 0; i < 30 && state() != "CONNECTED"; i++ {
+	for i := 0; i < 45 && state() != "CONNECTED"; i++ {
 		time.Sleep(2 * time.Second)
 	}
+	log.Printf("wifi is %q", state())
 }
 
-func (d *display) update() {
+type fetchResult struct {
+	raw []byte
+	at  time.Time
+	err error
+}
+
+// fetchWeather tries a few times, reconnecting Wi-Fi as needed. It runs in the
+// background so taps keep working while it waits.
+func fetchWeather(cfg *Config) fetchResult {
 	var err error
 	for attempt := 1; attempt <= 3; attempt++ {
 		ensureWifi()
 		var raw []byte
-		if raw, err = fetch(d.cfg); err == nil {
-			d.raw, d.fetched = raw, time.Now()
-			cache, _ := json.Marshal(map[string]any{"fetched": d.fetched.Format(time.RFC3339), "data": json.RawMessage(raw)})
-			if werr := os.WriteFile(d.cachePath(), cache, 0o644); werr != nil {
-				log.Printf("cache: %v", werr)
-			}
-			log.Printf("fetched weather")
-			return
+		if raw, err = fetch(cfg); err == nil {
+			return fetchResult{raw: raw, at: time.Now()}
 		}
 		log.Printf("fetch attempt %d: %v", attempt, err)
 		time.Sleep(20 * time.Second)
+	}
+	return fetchResult{err: err}
+}
+
+func (d *display) saveCache() {
+	cache, _ := json.Marshal(map[string]any{"fetched": d.fetched.Format(time.RFC3339), "data": json.RawMessage(d.raw)})
+	if err := os.WriteFile(d.cachePath(), cache, 0o644); err != nil {
+		log.Printf("cache: %v", err)
 	}
 }
 
@@ -192,22 +208,44 @@ func (d *display) loadCache() {
 	}
 }
 
+// staleAfter is how old a forecast may get before the screen stops presenting it as now.
+const staleAfter = 3 * time.Hour
+
+// updatedLabel is "UPDATED 6:00 AM", with the weekday once it is no longer today.
+func updatedLabel(fetched, now time.Time) string {
+	hm, ap := clock(fetched)
+	if fetched.Format("2006-01-02") != now.Format("2006-01-02") {
+		return "UPDATED " + strings.ToUpper(fetched.Format("Mon")) + " " + hm + " " + ap
+	}
+	return "UPDATED " + hm + " " + ap
+}
+
 func (d *display) show() {
 	night := d.cfg.Theme == "night"
+	now := time.Now()
 	var img *image.Gray
 	m, err := (*Model)(nil), error(nil)
 	if d.raw != nil {
 		m, err = buildModel(d.raw, d.fetched, batteryLevel(), d.cfg)
-	}
-	switch {
-	case m == nil:
-		now := time.Now()
-		hm, ap := clock(now)
-		blank := &Model{DateLabel: dateLabel(now), Updated: "TRIED " + hm + " " + ap, Battery: batteryLevel()}
 		if err != nil {
 			log.Printf("model: %v", err)
 		}
+	}
+	if m != nil {
+		// The date is today's; the forecast says when it was fetched.
+		loc := time.FixedZone("local", tzOffset(d.raw))
+		m.DateLabel = dateLabel(now.In(loc))
+		m.Updated = updatedLabel(d.fetched.In(loc), now.In(loc))
+	}
+	switch {
+	case m == nil:
+		hm, ap := clock(now)
+		blank := &Model{DateLabel: dateLabel(now), Updated: "TRIED " + hm + " " + ap, Battery: batteryLevel()}
 		img = renderMessage(blank, "OFFLINE.EXE", "storm", "can't reach the weather yet. check the wi-fi; trying again soon.", true, night)
+	case now.Sub(d.fetched) > staleAfter:
+		since := strings.ToLower(strings.TrimPrefix(m.Updated, "UPDATED "))
+		msg := fmt.Sprintf("no weather since %s. check the wi-fi; trying again every %d minutes.", since, d.cfg.RefreshMinutes)
+		img = renderMessage(m, "OFFLINE.EXE", "storm", msg, true, night)
 	case d.screen == "days":
 		img = renderDays(m, night)
 	default:
@@ -254,15 +292,29 @@ func cmdRun(args []string) {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
 
+	// Show the last forecast right away; the first update replaces it.
+	if d.raw != nil {
+		d.show()
+	}
+	results := make(chan fetchResult, 1)
+	fetching := false
 	next := time.Now()
 	for {
-		if !time.Now().Before(next) {
-			d.update()
-			d.screen = "main" // the days screen falls back to main on each update
-			d.show()
+		if !fetching && !time.Now().Before(next) {
+			fetching = true
+			go func() { results <- fetchWeather(cfg) }()
 			next = nextSlot(time.Now(), cfg.RefreshMinutes)
 		}
 		select {
+		case r := <-results:
+			fetching = false
+			if r.err == nil {
+				d.raw, d.fetched = r.raw, r.at
+				d.saveCache()
+				log.Printf("fetched weather")
+			}
+			d.screen = "main" // the days screen falls back to main on each update
+			d.show()
 		case t := <-touches:
 			p := image.Pt(t.x, t.y)
 			if t.long {
@@ -287,9 +339,17 @@ func cmdRun(args []string) {
 			log.Printf("%v: exiting", sig)
 			d.goodbye()
 			return
-		case <-time.After(time.Until(next)):
+		case <-wait(fetching, next):
 		}
 	}
+}
+
+// wait fires at the next update slot; while a fetch is running its result wakes the loop.
+func wait(fetching bool, next time.Time) <-chan time.Time {
+	if fetching {
+		return nil
+	}
+	return time.After(time.Until(next))
 }
 
 func cmdTouchProbe(args []string) {

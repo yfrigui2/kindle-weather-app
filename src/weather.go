@@ -194,6 +194,15 @@ func dateLabel(t time.Time) string {
 	return strings.ToUpper(t.Format("Mon") + " · " + t.Format("Jan 2"))
 }
 
+// tzOffset is the forecast location's UTC offset in seconds (0 if unknown).
+func tzOffset(raw []byte) int {
+	var r struct {
+		UTCOffset int `json:"utc_offset_seconds"`
+	}
+	json.Unmarshal(raw, &r)
+	return r.UTCOffset
+}
+
 // buildModel turns a saved Open-Meteo response into the screen model, as of when it was fetched.
 func buildModel(raw []byte, fetched time.Time, battery int, cfg *Config) (*Model, error) {
 	var r omResponse

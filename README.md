@@ -97,6 +97,12 @@ When the program exits, `run.sh` turns the screen saver back on and restarts the
 UI (`start lab126_gui`), which takes about a minute and a half. A goodbye screen stays up
 in the meantime. Nothing outside `/mnt/us/extensions/pocketink` is changed.
 
+With the Kindle UI paused, nothing else rejoins Wi-Fi after the network drops (a router
+restart, say), so before each update the program checks the connection and, if it is
+down, turns the Kindle's wireless off and on to reconnect. Updates run in the background,
+so taps always respond. If there has been no forecast for 3 hours, the screen says so
+instead of showing old weather as current.
+
 While running, it writes `pocketink.log`, `cache.json` (the last forecast, shown if
 Wi-Fi is down at start) and `screen.png` (the screen being shown) to its folder.
 
